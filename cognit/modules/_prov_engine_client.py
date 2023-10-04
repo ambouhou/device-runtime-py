@@ -44,22 +44,26 @@ class ProvEngineClient:
         response = None
 
         url = "{}/{}".format(self.endpoint, SR_RESOURCE_ENDPOINT)
-
-        r = req.post(url, json=serverless_runtime.dict(), timeout=REQ_TIMEOUT)
+        tmp = {}
+        tmp['SERVERLESS_RUNTIME'] = serverless_runtime.dict()
+        print(tmp)
+        r = req.post(url, auth=("oneadmin", "password"), json=tmp)
         cognit_logger.warning("Create [POST] URL: {}".format(url))
 
+        print(r)
         if r.status_code != 201:
-            cognit_logger.error(
-                "Provisioning engine returned {} on create".format(r.status_code)
-            )
-            return response
-
+             cognit_logger.error(
+                 "Provisioning engine returned {} on create".format(r.status_code)
+             )
+             return response
+        
+        print(r.json())
         try:
-            response = pydantic.parse_obj_as(ServerlessRuntime, r.json())
+            response = pydantic.parse_obj_as(ServerlessRuntime, r.json()['SERVERLESS_RUNTIME'])
 
         except pydantic.ValidationError as e:
             cognit_logger.error(e)
-
+       
         return response
 
     def retrieve(self, sr_id: int) -> Optional[ServerlessRuntime]:
@@ -74,7 +78,7 @@ class ProvEngineClient:
         response = None
 
         url = "{}/{}/{}".format(self.endpoint, SR_RESOURCE_ENDPOINT, sr_id)
-        r = req.get(url, timeout=REQ_TIMEOUT)
+        r = req.get(url, auth=("oneadmin", "password"), timeout=REQ_TIMEOUT)
         cognit_logger.warning("Retrieve [GET] URL: {}".format(url))
 
         if r.status_code != 200:
@@ -83,8 +87,10 @@ class ProvEngineClient:
             )
             return response
 
+        print(r.json())
+
         try:
-            response = pydantic.parse_obj_as(ServerlessRuntime, r.json())
+            response = pydantic.parse_obj_as(ServerlessRuntime, r.json()['SERVERLESS_RUNTIME'])
 
         except pydantic.ValidationError as e:
             cognit_logger.error(e)

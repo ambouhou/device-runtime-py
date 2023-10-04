@@ -25,10 +25,10 @@ sr_conf.scheduling_policies = [EnergySchedulingPolicy(50)]
 
 # Request the creation of the serverless runtime to the Cognit provisioning engine
 try:
-    my_cognit_runtime = ServerlessRuntimeContext(config_path="./cognit.yml")
+    my_cognit_runtime = ServerlessRuntimeContext(config_path="examples/cognit.yml")
     ret = my_cognit_runtime.create(sr_conf)
 except Exception as e:
-    print("Error: {}".format(e))
+    print(f"Error: {e}")
     exit(1)
 
 

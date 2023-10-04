@@ -2,7 +2,7 @@ import time
 from enum import Enum
 from typing import Callable, List, Optional
 
-from cognit.models._prov_engine_client import FaaSConfig, FaaSState, ServerlessRuntime
+from cognit.models._prov_engine_client import FaaSConfig, Empty, DaaSConfig, Scheduling, DeviceInfo, FaaSState, ServerlessRuntime
 from cognit.models._serverless_runtime_client import (
     AsyncExecResponse,
     AsyncExecStatus,
@@ -114,11 +114,22 @@ class ServerlessRuntimeContext:
             name=serveless_runtime_config.name,
             policies=policies,
             requirements=requirements,
+            CPU="1",
+            MEMORY="1",
+            DISK_SIZE="1",
+            FLAVOUR="nature"
         )
 
         new_sr_request = ServerlessRuntime(
             NAME=serveless_runtime_config.name,
             FAAS=faas_config,
+#            DAAS=DaaSConfig(CPU=1, MEMORY=1, DISK_SIZE=1),
+#            SCHEDULING=Scheduling(POLICY="ppolicy", REQUIREMENTS="energy"),
+#            DEVICE_INFO=DeviceInfo(LATENCY_TO_PE=1, GEOGRAPHIC_LOCATION="brussels"),
+#            DAAS=DaaSConfig(CPU=1, MEMORY=1,DISK_SIZE=1,FLAVOUR=""),
+#            DAAS=Empty(),
+            SCHEDULING=Empty(),
+            DEVICE_INFO=Empty()
         )
 
         new_sr_response = self.pec.create(new_sr_request)
@@ -156,7 +167,7 @@ class ServerlessRuntimeContext:
             return None
 
         # Retrieve the Serverless Runtime instance from the Provisioning Engine
-        sr_response = self.pec.retrieve(self.sr_instance.ID)
+        sr_response = self.pec.retrieve(self.sr_instance.ID + 1)
 
         # Update the Serverless Runtime cached instance
         if sr_response != None:

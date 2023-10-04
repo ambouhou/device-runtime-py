@@ -9,8 +9,8 @@ class FaaSState(str, Enum):
     ServerlessRuntimeState representation
     """
 
-    PENDING = "pending"
-    RUNNING = "running"
+    PENDING = "PENDING"
+    RUNNING = "RUNNING"
 
 
 class FaaSConfig(BaseModel):
@@ -30,7 +30,7 @@ class FaaSConfig(BaseModel):
         default="",
         description="String containing the HTTP URL of the Runtime. Must be empty or nonexistent in creation.",
     )
-    STATE: FaaSState = Field(
+    STATE: str = Field(
         default="",
         description="String containing the state of the VM containing the Runtime. It can be any state defined by the Cloud/Edge Manager, the relevant subset is “pending” and “running”",
     )
@@ -54,7 +54,7 @@ class DaaSConfig(BaseModel):
         description="Integer describing the size in MB of the disk allocated to the VM serving the Runtime",
     )
     FLAVOUR: str = Field(
-        default="",
+        default="nature",
         description="String describing the flavour of the Runtime. There is one identifier per DaaS and FaaS corresponding to the different use cases",
     )
     ENDPOINT: str = Field(
@@ -92,6 +92,11 @@ class DeviceInfo(BaseModel):
         description="String describing the geographic location of the client device in WGS84",
     )
 
+class Empty(BaseModel):
+    ...
+
+    class Config:
+        extra = "forbid"
 
 class ServerlessRuntime(BaseModel):
     NAME: Optional[str] = Field(
@@ -102,8 +107,8 @@ class ServerlessRuntime(BaseModel):
     )
 
     FAAS: FaaSConfig = Field(description="FaaS Config")
-    DAAS: Optional[DaaSConfig] = Field(description="DaaS Config")
+    DAAS: Optional[Empty]
 
-    SCHEDULING: Optional[Scheduling]
+    SCHEDULING: Optional[Scheduling|Empty]
 
-    DEVICE_INFO: Optional[DeviceInfo]
+    DEVICE_INFO: Optional[DeviceInfo|Empty]
