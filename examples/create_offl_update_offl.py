@@ -84,6 +84,7 @@ print("COGNIT Serverless Runtime ready after Updated!")
 
 # call_sync sends to execute sync.ly to the already assigned Serverless Runtime.
 # First argument is the function, followed by the parameters to execute it.
+time.sleep(45)
 result = my_cognit_runtime.call_sync(mult, 4, 5)
 
 print("Post-Update offloaded function result", result)

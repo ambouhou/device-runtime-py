@@ -6,5 +6,6 @@ services:
     build:
       context: ./..
       dockerfile: ./examples/Dockerfile
+    stdin_open: true
+    tty: true
     network_mode: host
- 
