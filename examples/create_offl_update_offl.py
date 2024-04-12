@@ -34,7 +34,7 @@ sr_conf = ServerlessRuntimeConfig()
 sr_conf.name = "Example Serverless Runtime"
 sr_conf.scheduling_policies = [EnergySchedulingPolicy(30)]
 # This is where the user can define the FLAVOUR to be used within COGNIT to deploy the FaaS node.
-sr_conf.faas_flavour = "Energy"
+sr_conf.faas_flavour = "Cybersec"
 
 # Request the creation of the Serverless Runtime to the COGNIT Provisioning Engine
 try:
