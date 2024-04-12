@@ -62,7 +62,7 @@ print("COGNIT Serverless Runtime ready!")
 # call_sync sends to execute sync.ly to the already assigned Serverless Runtime.
 # First argument is the function, followed by the parameters to execute it.
 
-log_file_path = "./auth.log"
+log_file_path = "examples/auth.log"
 
 try:
     with open(log_file_path, "r") as log_file:
