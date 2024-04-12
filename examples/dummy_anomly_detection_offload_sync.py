@@ -2,8 +2,6 @@
 # If you installed cognit with pip, you can remove this
 import sys
 import time
-import os
-import re
 
 sys.path.append(".")
 
@@ -17,6 +15,7 @@ from cognit import (
 )
 
 def get_authentication_failures(log_content):
+    import re
     try:
         authentication_failures = []
         for line in log_content.split('\n'):
